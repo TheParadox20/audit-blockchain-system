@@ -30,13 +30,12 @@ class Keypair:
         return SigningKey.from_pem(key, hashfunc=hash) if mode=='private' else VerifyingKey.from_pem(key)
     
     def keyToFile(self):
-        file = open('keys/admin.txt','wb')
-        file.write(self.serialized_privateKey)
-        file.write(b'\x00')#Split private and public key
-        file.write(self.serialized_publicKey)
-        file.close()
+        with open('keys/alternate_private.txt','wb') as f:
+            f.write(self.serialized_privateKey)
+        with open('keys/alternate_public.txt','wb') as f:
+            f.write(self.serialized_publicKey)
 
-#EXAMPLE
-alpha = Keypair('Good Train House Koala')
+#EXAMPLE USAGE
+alpha = Keypair('Bad Train House Koala')
 alpha.genKeyPair()
 alpha.keyToFile()

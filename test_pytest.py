@@ -1,3 +1,4 @@
+from email import message
 from account import Account
 from block import Block
 from blockchain import Blockchain
@@ -24,3 +25,12 @@ def test_serialization_deserialization():
     alpha = Keypair('Good Train House Koala')
     alpha.genKeyPair()
     assert alpha.privateKey == alpha.deserialize(alpha.serialized_privateKey)
+
+def test_signing():
+    pen = Signature()
+    message = b'Yin & Yang'
+    sk = 'keys/private.txt'
+    vk = 'keys/public.txt'
+    signature = pen.signData(sk,message)
+    assert pen.verifySignature(signature,vk,message) == True
+    assert pen.verifySignature(signature,'keys/alternate_public.txt',message) == False
