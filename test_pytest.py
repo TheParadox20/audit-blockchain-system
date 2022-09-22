@@ -1,11 +1,11 @@
-from account import Account
-from block import Block
-from blockchain import Blockchain
-from hash import Hash
-from keypair import Keypair
-from operation import Operation
-from signature import Signature
-from transaction import Transaction
+from block_chain.account import Account
+from block_chain.block import Block
+from block_chain.blockchain import Blockchain
+from block_chain.hash import Hash
+from block_chain.keypair import Keypair
+from block_chain.operation import Operation
+from block_chain.signature import Signature
+from block_chain.transaction import Transaction
 
 def test_test():
     assert 'hello' == 'hello'
