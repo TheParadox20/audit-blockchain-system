@@ -1,5 +1,7 @@
+import hashlib
 class Hash:
     """
     Wrapper class for using a hash function
     """
-    pass
+    def hash_256(message):
+        return hashlib.sha256(message).hexdigest()

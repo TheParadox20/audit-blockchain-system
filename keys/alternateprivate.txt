@@ -1,5 +1,0 @@
------BEGIN EC PRIVATE KEY-----
-MHQCAQEEIIzbVfWp04x+WnqfjQ3ygiU5Vmm4g9mGj1gjNjgdn1ztoAcGBSuBBAAK
-oUQDQgAEPnba1MVqiyEf2L1YcmdC7NUpJRL89Wgrf8wddytVBarHjHAlEfdNi1xy
-5OjDulvvIB1Y4hVVnb9pBcCYCjg8xw==
------END EC PRIVATE KEY-----

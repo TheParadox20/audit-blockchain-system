@@ -10,6 +10,7 @@ class Signature:
             return True
         except:
             return False
+    
     def __init__(self) -> None:
         pass
 

@@ -1,4 +1,3 @@
-from email import message
 from account import Account
 from block import Block
 from blockchain import Blockchain
@@ -33,4 +32,26 @@ def test_signing():
     vk = 'keys/public.txt'
     signature = pen.signData(sk,message)
     assert pen.verifySignature(signature,vk,message) == True
-    assert pen.verifySignature(signature,'keys/alternate_public.txt',message) == False
+    assert pen.verifySignature(signature,'keys/alternate_public.txt',message) == False #Using different key pair to verify signature
+    
+    
+def test_signing_from_object():
+    pen = Signature()
+    message = b'Yin & Yang'
+    keys = Keypair('Bad Train House Koala')
+    keys.genKeyPair()
+    signature = pen.signData(keys.privateKey,message)
+    assert pen.verifySignature(signature,keys.publicKey,message) == True
+
+def test_accountID_generation():
+    user_1 = Account()
+    user_1.genAccount('Hello Good People Holla')
+    user_2 = Account()
+    user_2.genAccount('Hello Good People Holla')
+    user_3 = Account()
+    user_3.genAccount('A big bang Started!')
+    print(user_1.accountID)
+    print(user_2.accountID)
+    print(user_3.accountID)
+    assert user_1.accountID==user_2.accountID
+    assert user_1.accountID!=user_3.accountID

@@ -1,3 +1,9 @@
+import hashlib
+from keypair import Keypair
+from signature import Signature
+from DB.database import DB
+from hash import Hash
+
 class Account:
     """
     Class for managing a wallet, creating operations and data signing.
@@ -6,17 +12,27 @@ class Account:
     wallet = [] # array that stores KeyPair objects that belong to the same account
     balance = 0.0 #value representing the number of coins belongs to the account
 
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
-    def genAccount(self):
+    def genAccount(self,seed):
         """
         Creates an account; Returns an object of the Account class. The first key pair is generated and assigned to the account
         """
-        pass
+        userKeys = Keypair(seed)
+        userKeys.genKeyPair()
+        self.accountID=Hash.hash_256(userKeys.privateKey.to_string())
+        self.wallet.append({
+            'key':userKeys,
+            'ID':hashlib.sha256(userKeys.privateKey.to_string()).hexdigest()
+        })
 
-    def addKeyPairToWallet(self):
-        pass
+    def addKeyPairToWallet(self,seed):
+        keys = Keypair(seed)
+        self.wallet.append({
+            'key':keys,
+            'ID':hashlib.sha256(keys.privateKey.to_string()).hexdigest()
+        })
 
     def updateBalance(self):
         pass
@@ -24,11 +40,15 @@ class Account:
     def createPaymentOp(self):
         pass
 
-    def getBalance(self):
+    def getBalance(self,ID):
         pass
 
     def printBalance(self):
         pass
 
-    def signData(self):
-        pass
+    def signData(self,message,index):
+        if index>len(self.wallet):
+            print('\tKey doesn\'t exist in space')
+            return
+        pen = Signature()
+        return pen.signData(self.wallet[index]['keys'].privateKey,message)

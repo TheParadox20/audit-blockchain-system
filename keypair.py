@@ -29,13 +29,14 @@ class Keypair:
         """
         return SigningKey.from_pem(key, hashfunc=hash) if mode=='private' else VerifyingKey.from_pem(key)
     
-    def keyToFile(self):
-        with open('keys/alternate_private.txt','wb') as f:
+    def keyToFile(self,name):
+        with open('keys/'+name+'_private.txt','wb') as f:
             f.write(self.serialized_privateKey)
-        with open('keys/alternate_public.txt','wb') as f:
+        with open('keys/'+name+'_public.txt','wb') as f:
             f.write(self.serialized_publicKey)
 
 #EXAMPLE USAGE
 alpha = Keypair('Bad Train House Koala')
 alpha.genKeyPair()
-alpha.keyToFile()
+alpha.privateKey.sign(b'dad')
+alpha.keyToFile('alternate')
