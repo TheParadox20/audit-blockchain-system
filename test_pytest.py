@@ -9,3 +9,18 @@ from transaction import Transaction
 
 def test_test():
     assert 'hello' == 'hello'
+
+def test_keyGeneration():
+    alpha_key1 = Keypair('Good Train House Koala')
+    alpha_key1.genKeyPair()
+    alpha_key2 = Keypair('Good Train House Koala')
+    alpha_key2.genKeyPair()
+    omega = Keypair('Hola Train House Koala')
+    omega.genKeyPair()
+    assert alpha_key1.serialized_privateKey == alpha_key2.serialized_privateKey #equal seeds, equal keys
+    assert alpha_key1.serialized_privateKey != omega.serialized_privateKey
+
+def test_serialization_deserialization():
+    alpha = Keypair('Good Train House Koala')
+    alpha.genKeyPair()
+    assert alpha.privateKey == alpha.deserialize(alpha.serialized_privateKey)
