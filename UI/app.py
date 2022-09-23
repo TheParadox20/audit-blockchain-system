@@ -1,6 +1,7 @@
 import os
 from flask import Flask, send_from_directory, request
 from flask_cors import CORS
+from persistence.explorer import Explorer
 
 app = Flask(__name__, static_folder='frontend/dist')
 

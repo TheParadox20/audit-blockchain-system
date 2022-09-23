@@ -1,7 +1,7 @@
 import hashlib
 from keypair import Keypair
 from signature import Signature
-from DB.database import DB
+from persistence.explorer import Explorer
 from hash import Hash
 
 class Account:
@@ -22,14 +22,14 @@ class Account:
         userKeys = Keypair(seed)
         userKeys.genKeyPair()
         self.accountID=Hash.hash_256(userKeys.privateKey.to_string())
-        self.wallet.append({
+        Account.wallet.append({
             'key':userKeys,
             'ID':hashlib.sha256(userKeys.privateKey.to_string()).hexdigest()
         })
 
     def addKeyPairToWallet(self,seed):
         keys = Keypair(seed)
-        self.wallet.append({
+        Account.wallet.append({
             'key':keys,
             'ID':hashlib.sha256(keys.privateKey.to_string()).hexdigest()
         })
@@ -47,8 +47,8 @@ class Account:
         pass
 
     def signData(self,message,index):
-        if index>len(self.wallet):
+        if index>len(Account.wallet):
             print('\tKey doesn\'t exist in space')
             return
         pen = Signature()
-        return pen.signData(self.wallet[index]['keys'].privateKey,message)
+        return pen.signData(Account.wallet[index]['keys'].privateKey,message)
