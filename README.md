@@ -1,5 +1,5 @@
-# "Baby" Blockchain
-Creating a simple, open, and robust python-based blockchain system
+# Audit Blockchain System
+A simple, open, and robust python-based blockchain system
 
 # Terms of Reference
 ## Description
@@ -12,46 +12,56 @@ Auditing is an essential part in most, if not all, companies. It's used in the e
 <li>Where it's going</li>
 <li>What it does each step of the way</li>
 </ul>
+The system strives to accomplish the above three core functions
 
 ## System boundaries
-Current version supports detecting nodes in the same LAN(Local Area Network) only
+Current version supports detecting nodes in the same LAN(Local Area Network) only.
+
+Only one institution can be audited by a cluster of nodes
 
 ## Intereaction of product with other products & components
-The system exposes API's through which web applications can interact with the blockchain
+The system exposes API's through which web applications can interact with the blockchain. Some of the exposed utilities include:
+<ul>
+<li>Account/ Wallet creation</li>
+<li>Transaction creation and sending</li>
+<li>Blockchain explorer; data extraction</li>
+</ul>
 
 ## Product features
-The system run a full blockchain node but without the mining feature. Modules included:
+The system runs a full blockchain node, excluding the mining feature. Modules included:
 <ul>
 <li>Networking and syncronization</li>
 <li>Block creation</li>
 <li>Key management</li>
-<li></li>
+<li>Wallet management</li>
+<li>Transaction creation and validation</li>
+<li>Data visualization</li>
 </ul>
 
 ## Security requirements
 Users are required to remember the seed phrase for account recovery; key pair generation
 
-Due to limited number of nodes a 51% attack can be easily performed to change the correct state of the blockchain
+Due to current limited number of nodes a 51% attack can be easily performed to change the correct state of the blockchain
 
 The end user should store the private key and seed phrase securely.
-
-### Threat Model
-### Violator Model
 
 ## Characteristics of end user
 The system is designed to serve three major categories:
 <ol>
-<li>Investors/stake holders</li>
-For both public and traded companies, the system acts as the gospel when it comes to evaluating the flow of money into and out of the company
 <li>Auditors</li>
-Auditors can use this as a tool 
+Auditors can use this as a tool to make tests on available financial documents
 <li>Authorities</li>
-For tax purposes or to 
+For tax purposes or to prove fraudulent activities. Due to it's open, immulatble nature, a money trail can be easily followed
+<li>Investors/stake holders</li>
+For both public and private companies, the system acts as the gospel when it comes to evaluating the flow of money into and out of the company
 <li>Governments</li>
 At a theoretical level, the system may be used at a national scale to track tax payers money through the system and possibly reduce fraud cases
 </ol>
 
 ## Restrictions
+Lack of a complex concencus mechanism; unlike in other blockchain networks such as ethereum which include a poof of work or proof of stake concensus algorithm. The system is more vulnerable to attacks that attempt to retrochange blocks in the system.
+
+There is no way of validating initial input sources in the system therefor has to be validated manually or otherwise trust the numbers are accurate
 
 # Local Setup
 The system is built using the python programming languge hence to run python3.* is required.
@@ -65,7 +75,7 @@ The system is built using the python programming languge hence to run python3.* 
 The human interface is built as a web application using a combination of flask and react that interface to the running node<br>
 Navigate to <a href="/UI/">`/UI`</a> directory and run: <br>
 `flask run --host=0.0.0.0`<br>
-
+The link provided after running the server directs to the web application
 
 ## List of dependencies
 <ol>
