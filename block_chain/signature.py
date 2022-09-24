@@ -21,10 +21,13 @@ class Signature:
             pass
         if self.isFile(message):
             message = open(message, 'rb').read()
-        #write signature to file
-        with open(b'DB/'+message+b'_signature.txt','wb') as f:
-            f.write(privateKey.sign(message))
+        else:
+            if type(message)!= bytes:
+                message=message.encode('utf-8')
         return privateKey.sign(message)
+        #write signature to file
+        with open(b'../persistence/'+message+b'_signature.txt','wb') as f:
+            f.write(privateKey.sign(message))
 
     def verifySignature(self, signature, publicKey, message) -> bool:
         if self.isFile(signature):
