@@ -2,7 +2,7 @@ import hashlib
 
 class Explorer:
     """
-    Reads and writes data to the database, db.txt
+    Reads data from the database, db.bc
     """
     def __init__(self) -> None:
         pass

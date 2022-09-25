@@ -13,11 +13,13 @@ class Block:
     block = {}
 
     def __init__(self,transaction):
+        self.getPreviousHash()
+        self.getPreviousHash()
         self.block = {
+            'blockSize':self.calculateBlockSize(),
             'previousHash':self.prevHash,
-            'blockSize':len(transaction),
             'numberOfTransactions':1,
-            'blockNumber':0,
+            'blockNumber':self.getChainHeight()+1,
             'nodeSignature':'',
             'transactions':transaction
         }
@@ -25,6 +27,15 @@ class Block:
         Blockchain(self.block)
 
     def createBlock(self):
+        pass
+
+    def calculateBlockSize(self):
+        pass
+
+    def getChainHeight(self) -> int:
+        pass
+
+    def getPreviousHash(self):
         pass
 
 def dicToBytes(dic) -> bytes:
