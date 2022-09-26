@@ -5,7 +5,7 @@ from persistence.explorer import Explorer
 from block_chain.operation import Operation
 from block_chain.account import Account
 
-app = Flask(__name__, static_folder='UI/frontend/dist')
+app = Flask(__name__, static_folder='UI/webApp/dist')
 
 if __name__ == '__main__':
     app.run(use_reloader=True, port=5000, threaded=True)

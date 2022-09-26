@@ -2,17 +2,18 @@ from persistence.explorer import Explorer
 
 def dictToBytes(dic) -> bytes:
     dump =b'{'
-    for key in dic:
-        dump+=bytes(f"'{key}': ",'utf-8')
+    for i, key in enumerate(dic):
+        dump+=bytes(f"\"{key}\": ",'utf-8')
         if type(dic[key])==bytes:
-            dump+=b"'"+dic[key]+b"'"
+            dump+=b"\""+dic[key]+b"\""
         if type(dic[key])==int:
             dump+=bytes(str(dic[key]),'utf-8')
         if type(dic[key])==str:
-            dump+=b"'"+bytes(dic[key],'utf-8')+b"'"
+            dump+=b"\""+bytes(dic[key],'utf-8')+b"\""
         if type(dic[key])==dict:
             dump+=dictToBytes(dic[key])
-        dump+=b', '
+        if i!=len(dic)-1:
+            dump+=b', '
     dump+=b'}'
     return dump
 
@@ -29,9 +30,21 @@ class Blockchain:
             if self.validateBlock(block):
                 self.appendBlock(block)
 
-    def initBlockchain(self):
+    def initBlockchain():
         with open('persistence/db.bc','wb') as f:
-            f.write(b'0\n')
+            f.write(dictToBytes({
+            'blockSize':124,
+            'previousHash': '',
+            'numberOfTransactions':1,
+            'blockNumber': 0,
+            'nodeSignature':'',
+            'transactions':{}
+            }))
+        with open('persistence/state.bc','wb') as f:
+            f.write(dictToBytes({
+                'height':1,
+                'checksum':Explorer.getChainState()
+            }))
     
     def validateBlock(self,block):
         """
@@ -39,7 +52,21 @@ class Blockchain:
         """
         return True
     
-    def appendBlock(self,block):
+    def updateBlockHeight():
+        with open('persistence/db.bc','wb') as f:
+            print(f.tell())
+            h =Explorer.getChainHeight()+1
+            print(h)
+            f.write(bytes(h))
+    
+    def appendBlock(self, block):
         with open('persistence/db.bc','ab') as f:
-            f.write(dictToBytes(block)+b'\n')
-            
+            f.write(dictToBytes(block))
+        
+        height = Explorer.getChainHeight()
+        state = Explorer.getChainState()
+        with open('persistence/state.bc','wb') as f:
+            f.write(dictToBytes({
+                'height':height+1,
+                'checksum': state
+            }))

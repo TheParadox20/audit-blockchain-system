@@ -1,3 +1,4 @@
+import json
 from block_chain.account import Account
 from block_chain.block import Block
 from block_chain.blockchain import Blockchain
@@ -6,6 +7,7 @@ from block_chain.keypair import Keypair
 from block_chain.operation import Operation
 from block_chain.signature import Signature
 from block_chain.transaction import Transaction
+from persistence.explorer import Explorer
 
 def test_test():
     assert 'hello' == 'hello'
@@ -55,3 +57,27 @@ def test_accountID_generation():
     print(user_3.accountID)
     assert user_1.accountID==user_2.accountID
     assert user_1.accountID!=user_3.accountID
+
+def test_blockSize():
+    transaction = {
+        'operations':'operation',
+        'transactionID':'self.transactionID',
+        'Signature':'Account.signData(self.transactionID,0)'
+    }
+    block = Block(transaction)
+    print(block.block)
+
+def test_getBlock(): #Get genesis block
+    block = json.loads(Explorer.getBlock(0)[0])
+    blockSize = Explorer.getBlock(0)[1]
+    genesisBlock = {
+        'blockSize':124,
+        'previousHash': '',
+        'numberOfTransactions':1,
+        'blockNumber': 0,
+        'nodeSignature':'',
+        'transactions':{}
+    }
+    
+    assert genesisBlock == block
+    assert genesisBlock['blockSize'] == blockSize == 124

@@ -16,13 +16,15 @@ class Block:
         self.getPreviousHash()
         self.getPreviousHash()
         self.block = {
-            'blockSize':self.calculateBlockSize(),
+            'blockSize':0,
             'previousHash':self.prevHash,
             'numberOfTransactions':1,
-            'blockNumber':self.getChainHeight()+1,
+            'blockNumber':Explorer.getChainHeight()+1,
             'nodeSignature':'',
             'transactions':transaction
         }
+        size = self.calculateBlockSize()
+        self.block['blockSize'] = size+len(str(size))
         #Append to block
         Blockchain(self.block)
 
@@ -30,25 +32,24 @@ class Block:
         pass
 
     def calculateBlockSize(self):
-        pass
-
-    def getChainHeight(self) -> int:
-        pass
+        return len(dictToBytes(self.block))
 
     def getPreviousHash(self):
         pass
 
-def dicToBytes(dic) -> bytes:
+def dictToBytes(dic) -> bytes:
     dump =b'{'
-    for key in dic:
-        dump+=bytes(f"'{key}' : ",'utf-8')
+    for i, key in enumerate(dic):
+        dump+=bytes(f"\"{key}\": ",'utf-8')
         if type(dic[key])==bytes:
-            dump+=b"'"+dic[key]+b"'"
+            dump+=b"\""+dic[key]+b"\""
         if type(dic[key])==int:
             dump+=bytes(str(dic[key]),'utf-8')
         if type(dic[key])==str:
-            dump+=b"'"+bytes(dic[key],'utf-8')+b"'"
+            dump+=b"\""+bytes(dic[key],'utf-8')+b"\""
         if type(dic[key])==dict:
-            dump+=dicToBytes(dic)
+            dump+=dictToBytes(dic[key])
+        if i!=len(dic)-1:
+            dump+=b', '
     dump+=b'}'
     return dump
