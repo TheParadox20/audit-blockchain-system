@@ -13,7 +13,7 @@ class Block:
     block = {}
 
     def __init__(self,transaction):
-        self.getPreviousHash()
+        self.prevHash = self.getPreviousHash()
         self.getPreviousHash()
         self.block = {
             'blockSize':0,
@@ -35,7 +35,12 @@ class Block:
         return len(dictToBytes(self.block))
 
     def getPreviousHash(self):
-        pass
+        cursor = 0
+        for i in range(0,Explorer.getChainHeight()):
+            block =  Explorer.getBlock(cursor)[0]
+            if i == Explorer.getChainHeight()-1:
+                return Hash.hash_256(block)
+            cursor+=Explorer.getBlock(cursor)[1]
 
 def dictToBytes(dic) -> bytes:
     dump =b'{'

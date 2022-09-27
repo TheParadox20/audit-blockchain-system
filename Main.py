@@ -2,7 +2,11 @@ from block_chain.account import Account
 from block_chain.operation import Operation
 from block_chain.blockchain import Blockchain
 from persistence.explorer import Explorer
-Blockchain.initBlockchain()
+
+try:
+    open('persistence/db.bc')
+except:
+    Blockchain.initBlockchain()
 
 """
 alice: 9ecde9c3174dc7d65a9c35d3c67e8a9f3f5046e52095ce451ebb41fb444dd814
@@ -17,7 +21,12 @@ while 1:
     if choice == '3':
         print('Database hash:',Explorer.getChainState())
         print('Number of Blocks: ',Explorer.getChainHeight())
-        
+        print('Blocks')
+        cursor = 0
+        for i in range(0,Explorer.getChainHeight()):
+            block =  Explorer.getBlock(cursor)[0]
+            print(block)
+            cursor+=Explorer.getBlock(cursor)[1]
     if choice=='2':
         user.genAccount(input('Enter the 4 words to recover wallet:\n'))
         print(f"Account recoverd succesfully accountID : {user.accountID}")

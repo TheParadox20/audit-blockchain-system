@@ -36,8 +36,8 @@ class Explorer:
                 if char==b',':
                     break
                 size += char
-            size = int(size)
-            f.seek(0)
+            size = int(size)-1
+            f.seek(startIndex)
             block = f.read(size)
             return block, size
     

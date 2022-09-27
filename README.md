@@ -72,8 +72,7 @@ The system is built using the python programming languge hence to run python3.* 
 `python3 Main.py`
 
 ## Open Graphical User Interface
-The human interface is built as a web application using a combination of flask and react that interface to the running node<br>
-Navigate to <a href="/UI/">`/UI`</a> directory and run: <br>
+The human interface is built as a web application using a combination of flask and react that interfaces to the running node<br>
 `flask run --host=0.0.0.0`<br>
 The link provided after running the server directs to the web application
 
