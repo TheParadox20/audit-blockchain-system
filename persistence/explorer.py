@@ -41,6 +41,24 @@ class Explorer:
             block = f.read(size)
             return block, size
     
+    def blockToDict(self,jsonString: bytes, isTransaction=False):
+        keys = [b'blockSize',b'previousHash',b'numberOfTransactions',b'blockNumber',b'nodeSignature',b'transactions'] if not isTransaction else [b'operations',b'transactionID',b'Signature']
+        keyIndexes = []
+        omega = {}
+        for i in keys:
+            keyIndexes.append(jsonString.index(b'"'+i+b'": '))
+        for i, v in enumerate(keys):
+            if i == len(keys)-1:
+                if isTransaction:
+                    property = jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1]
+                    omega[v.decode('utf-8')] = property
+                    return omega
+                property = self.blockToDict(jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1],True)
+            else:
+                property = jsonString[keyIndexes[i]+len(v)+4:keyIndexes[i+1]-2]
+            omega[v.decode('utf-8')] = property
+        return omega
+    
     def getLastBlockID(self):
         #Return hash of previous block
         pass

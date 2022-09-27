@@ -14,17 +14,19 @@ bob: 5e4babf14f5ff937b8d1e4e1e25bf69eeea65d907ed0e7022419feebb1d7579f
 charlie: b6f5e3b7122eab572cc2b9fb6ab2da998708cdd669ea2959b2eb580d5b9da196
 """
 user = Account()
+explorer = Explorer()
 menu = ['Create transaction','Add account','List accounts','Verify transaction','View balance','quit']
 print('Welcome to the Audit Blockchain System(ABS)')
 while 1:
     choice = input('Login/Recover Wallet:\n\t1.) Login\n\t2.) Recover with mnemonic\n\t3.) Explore blockchain database\n')
-    if choice == '3':
+    if choice == '3': # Explore Database
         print('Database hash:',Explorer.getChainState())
         print('Number of Blocks: ',Explorer.getChainHeight())
         print('Blocks')
         cursor = 0
         for i in range(0,Explorer.getChainHeight()):
             block =  Explorer.getBlock(cursor)[0]
+            block = explorer.blockToDict(block)
             print(block)
             cursor+=Explorer.getBlock(cursor)[1]
     if choice=='2':

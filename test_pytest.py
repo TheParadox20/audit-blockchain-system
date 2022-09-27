@@ -71,12 +71,16 @@ def test_getBlock(): #Get genesis block
     block = json.loads(Explorer.getBlock(0)[0])
     blockSize = Explorer.getBlock(0)[1]
     genesisBlock = {
-        'blockSize':125,
+        'blockSize':179,
         'previousHash': '',
-        'numberOfTransactions':1,
+        'numberOfTransactions':0,
         'blockNumber': 1,
         'nodeSignature':'',
-        'transactions':{}
+        'transactions':{
+            'operations':'',
+            'transactionID':'',
+            'Signature':''
+        }
     }
     
     assert genesisBlock == block
