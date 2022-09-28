@@ -1,7 +1,7 @@
 import hashlib
 import json
 
-def dictToBytes(dic) -> bytes:
+def dictToBytes(dic: dict) -> bytes:
     dump =b'{'
     for i, key in enumerate(dic):
         dump+=bytes(f"\"{key}\": ",'utf-8')
@@ -41,19 +41,31 @@ class Explorer:
             block = f.read(size)
             return block, size
     
-    def blockToDict(self,jsonString: bytes, isTransaction=False):
-        keys = [b'blockSize',b'previousHash',b'numberOfTransactions',b'blockNumber',b'nodeSignature',b'transactions'] if not isTransaction else [b'operations',b'transactionID',b'Signature']
+    def blockToDict(self,jsonString: bytes, isTransaction=False,isOperation=False):
+        if isTransaction:
+            keys = [b'operations',b'transactionID',b'Signature']
+        elif isOperation:
+            keys = [b'senderID',b'receiverID',b'amount']
+        else:
+            keys = [b'blockSize',b'previousHash',b'numberOfTransactions',b'blockNumber',b'nodeSignature',b'transactions']
         keyIndexes = []
         omega = {}
         for i in keys:
             keyIndexes.append(jsonString.index(b'"'+i+b'": '))
         for i, v in enumerate(keys):
             if i == len(keys)-1:
-                if isTransaction:
+                if isTransaction or isOperation:
+                    if i==0:
+                        print('##\n\n')
+                        property = self.blockToDict(jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1],isOperation=True)
                     property = jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1]
                     omega[v.decode('utf-8')] = property
+                    if isOperation:
+                        property = jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1]
+                        omega[v.decode('utf-8')] = property
+                        return omega
                     return omega
-                property = self.blockToDict(jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1],True)
+                property = self.blockToDict(jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1],isTransaction=True)
             else:
                 property = jsonString[keyIndexes[i]+len(v)+4:keyIndexes[i+1]-2]
             omega[v.decode('utf-8')] = property

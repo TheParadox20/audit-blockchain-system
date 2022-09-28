@@ -27,7 +27,7 @@ while 1:
         for i in range(0,Explorer.getChainHeight()):
             block =  Explorer.getBlock(cursor)[0]
             block = explorer.blockToDict(block)
-            print(block)
+            print(block['transactions'])
             cursor+=Explorer.getBlock(cursor)[1]
     if choice=='2':
         user.genAccount(input('Enter the 4 words to recover wallet:\n'))

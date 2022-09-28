@@ -39,7 +39,11 @@ class Blockchain:
             'blockNumber': 1,
             'nodeSignature':'',
             'transactions':{
-                'operations':'',
+                'operations':{
+                    'senderID':'',
+                    'receiverID':'',
+                    'amount':0.0
+                },
                 'transactionID':'',
                 'Signature':''
             }

@@ -4,6 +4,7 @@ from block_chain.signature import Signature
 from persistence.explorer import Explorer
 from block_chain.hash import Hash
 
+explorer = Explorer()
 class Account:
     """
     Class for managing a wallet, creating operations and data signing.
@@ -34,17 +35,30 @@ class Account:
             'ID':hashlib.sha256(keys.privateKey.to_string()).hexdigest()
         })
 
-    def updateBalance(self):
+    def updateBalance(self,accountID):
+        self.balance = self.getBalance(accountID)
+        
+
+    def createPaymentOp(self):#Done in Operation class
         pass
 
-    def createPaymentOp(self):
-        pass
+    def getBalance(self,accountID):
+        #Go through every block extracting transaction information related to the ID
+        inputs = []
+        outputs = []
+        cursor = 0
+        for i in range(0,Explorer.getChainHeight()):
+            block =  Explorer.getBlock(cursor)[0]
+            block = explorer.blockToDict(block)
+            if accountID == block['transactions']['operations']['senderID']:
+                outputs.append(int(block['transactions']['operations']['amount']))
+            if accountID == block['transactions']['operations']['receiverID']:
+                inputs.append(int(block['transactions']['operations']['amount']))
+            cursor+=Explorer.getBlock(cursor)[1]
+        return sum(inputs)-sum(outputs)
 
-    def getBalance(self,ID):
-        pass
-
-    def printBalance(self):
-        pass
+    def printBalance(self,ID):
+        print(self.getBalance(ID))
 
     def signData(message,index):
         if index>len(Account.wallet):
