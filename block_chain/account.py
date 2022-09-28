@@ -51,9 +51,9 @@ class Account:
             block =  Explorer.getBlock(cursor)[0]
             block = explorer.blockToDict(block)
             if accountID == block['transactions']['operations']['senderID']:
-                outputs.append(int(block['transactions']['operations']['amount']))
+                outputs.append(float(block['transactions']['operations']['amount']))
             if accountID == block['transactions']['operations']['receiverID']:
-                inputs.append(int(block['transactions']['operations']['amount']))
+                inputs.append(float(block['transactions']['operations']['amount']))
             cursor+=Explorer.getBlock(cursor)[1]
         return sum(inputs)-sum(outputs)
 

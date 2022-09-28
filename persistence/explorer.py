@@ -43,8 +43,10 @@ class Explorer:
     
     def blockToDict(self,jsonString: bytes, isTransaction=False,isOperation=False):
         if isTransaction:
+            # print(jsonString)
             keys = [b'operations',b'transactionID',b'Signature']
         elif isOperation:
+            # print(jsonString)
             keys = [b'senderID',b'receiverID',b'amount']
         else:
             keys = [b'blockSize',b'previousHash',b'numberOfTransactions',b'blockNumber',b'nodeSignature',b'transactions']
@@ -52,23 +54,16 @@ class Explorer:
         omega = {}
         for i in keys:
             keyIndexes.append(jsonString.index(b'"'+i+b'": '))
-        for i, v in enumerate(keys):
-            if i == len(keys)-1:
-                if isTransaction or isOperation:
-                    if i==0:
-                        print('##\n\n')
-                        property = self.blockToDict(jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1],isOperation=True)
-                    property = jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1]
-                    omega[v.decode('utf-8')] = property
-                    if isOperation:
-                        property = jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1]
-                        omega[v.decode('utf-8')] = property
-                        return omega
-                    return omega
-                property = self.blockToDict(jsonString[keyIndexes[i]+len(v)+4:len(jsonString)-1],isTransaction=True)
+        keyIndexes.append(len(jsonString)+1)
+        for i, key in enumerate(keys):
+            
+            if key==b'transactions': #if the key is transactions
+                property = self.blockToDict(jsonString[keyIndexes[i]+len(key)+4:len(jsonString)-1],isTransaction=True)
+            elif key==b'operations':
+                property = self.blockToDict(jsonString[keyIndexes[i]+len(key)+4:keyIndexes[i+1]-2],isOperation=True)
             else:
-                property = jsonString[keyIndexes[i]+len(v)+4:keyIndexes[i+1]-2]
-            omega[v.decode('utf-8')] = property
+                property = jsonString[keyIndexes[i]+len(key)+4:keyIndexes[i+1]-2]
+            omega[key.decode('utf-8')] = property
         return omega
     
     def getLastBlockID(self):

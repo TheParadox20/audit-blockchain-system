@@ -9,6 +9,8 @@ from block_chain.signature import Signature
 from block_chain.transaction import Transaction
 from persistence.explorer import Explorer
 
+explorer = Explorer()
+
 def test_test():
     assert 'hello' == 'hello'
 
@@ -71,17 +73,25 @@ def test_getBlock(): #Get genesis block
     block = json.loads(Explorer.getBlock(0)[0])
     blockSize = Explorer.getBlock(0)[1]
     genesisBlock = {
-        'blockSize':179,
+        'blockSize':224,
         'previousHash': '',
         'numberOfTransactions':0,
         'blockNumber': 1,
         'nodeSignature':'',
         'transactions':{
-            'operations':'',
+            'operations':{
+                    'senderID':'',
+                    'receiverID':'',
+                    'amount':0
+            },
             'transactionID':'',
             'Signature':''
         }
     }
     
     assert genesisBlock == block
-    # assert genesisBlock['blockSize'] == blockSize == 125
+    # assert genesisBlock['blockSize'] == blockSize == 224
+
+def test_blockToDict():
+    block = explorer.blockToDict(Explorer.getBlock(0)[0])
+    assert float(block['transactions']['operations']['amount']) == 0

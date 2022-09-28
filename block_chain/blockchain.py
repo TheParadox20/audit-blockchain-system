@@ -33,7 +33,7 @@ class Blockchain:
     def initBlockchain():
         with open('persistence/db.bc','wb') as f:
             f.write(dictToBytes({
-            'blockSize':179,
+            'blockSize':224,
             'previousHash': '',
             'numberOfTransactions':0,
             'blockNumber': 1,
@@ -42,7 +42,7 @@ class Blockchain:
                 'operations':{
                     'senderID':'',
                     'receiverID':'',
-                    'amount':0.0
+                    'amount':0
                 },
                 'transactionID':'',
                 'Signature':''
