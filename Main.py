@@ -42,9 +42,13 @@ while 1:
             receiver = input('Enter receiver address/ID\n')
             amount = float(input('Enter amount to be sent\n'))
             Operation(sender,receiver,amount)
-        if choice=='2':
+        if choice=='2': #Add account to wallet
             print()
-        if choice=='3':
+        if choice=='3': #list accounts
             for i in user.wallet:
                 for keys in i:
                     print(f"Address : {i[keys]}")
+        if choice=='5': #View balance
+            accountID = input('Enter the account ID to check balance\n')
+            balance = user.getBalance(accountID)
+            print(f"Balance for {accountID}: {balance}")

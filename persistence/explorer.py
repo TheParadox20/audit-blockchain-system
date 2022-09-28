@@ -83,10 +83,22 @@ class Explorer:
 
         return (file_hash.hexdigest()) # Get the hexadecimal digest of the hash
 
-    def getAccountBalance(self,ID):
+    def getAccountBalance(self,accountID):
         #Goes through blockchain and pulls every past transaction and calculates current balance
-        history = []
-        return sum(history)
+        #Go through every block extracting transaction information related to the ID
+        inputs = []
+        outputs = []
+        cursor = 0
+        for i in range(0,Explorer.getChainHeight()):
+            block =  Explorer.getBlock(cursor)[0]
+            block = self.blockToDict(block)
+            amount = (block['transactions']['operations']['amount'])
+            if accountID == block['transactions']['operations']['senderID'].decode('utf-8')[1:65]:
+                outputs.append(float(amount[:len(amount)-1]))
+            if accountID == block['transactions']['operations']['receiverID'].decode('utf-8')[1:65]:
+                inputs.append(float(amount[:len(amount)-1]))
+            cursor+=Explorer.getBlock(cursor)[1]
+        return sum(inputs)-sum(outputs)
     
     def getChainHeight() -> int:
         with open('persistence/state.bc','rb') as f:

@@ -44,18 +44,7 @@ class Account:
 
     def getBalance(self,accountID):
         #Go through every block extracting transaction information related to the ID
-        inputs = []
-        outputs = []
-        cursor = 0
-        for i in range(0,Explorer.getChainHeight()):
-            block =  Explorer.getBlock(cursor)[0]
-            block = explorer.blockToDict(block)
-            if accountID == block['transactions']['operations']['senderID']:
-                outputs.append(float(block['transactions']['operations']['amount']))
-            if accountID == block['transactions']['operations']['receiverID']:
-                inputs.append(float(block['transactions']['operations']['amount']))
-            cursor+=Explorer.getBlock(cursor)[1]
-        return sum(inputs)-sum(outputs)
+        return explorer.getAccountBalance(accountID)
 
     def printBalance(self,ID):
         print(self.getBalance(ID))

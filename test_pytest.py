@@ -10,7 +10,7 @@ from block_chain.transaction import Transaction
 from persistence.explorer import Explorer
 
 explorer = Explorer()
-
+user = Account()
 def test_test():
     assert 'hello' == 'hello'
 

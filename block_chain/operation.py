@@ -1,6 +1,9 @@
 # from ..persistence.explorer import Explorer
 import json
 from block_chain.transaction import Transaction
+from persistence.explorer import Explorer
+
+explorer = Explorer()
 
 class Operation:
     """
@@ -27,9 +30,11 @@ class Operation:
         }
 
     def verifyOperation(self):
-        return True
-        balance = Explorer.getAccountBalance(self.sender)
-        if balance<self.amount:
+        balance = explorer.getAccountBalance(self.sender)
+        print('Your Balance is:',balance)
+        print('Transacting:',self.amount)
+        if balance>self.amount:
             return True
+        print('!!\tLow Balance\t!!')
         return False
 
