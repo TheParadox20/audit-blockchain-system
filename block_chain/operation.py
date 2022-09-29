@@ -9,8 +9,8 @@ class Operation:
     """
     Class that allows creation of a payment operation
     """
-    sender = 0
-    receiver = 0
+    sender = ''
+    receiver = ''
     amount = 0.0
     operation = {}
     
@@ -33,8 +33,9 @@ class Operation:
         balance = explorer.getAccountBalance(self.sender)
         print('Your Balance is:',balance)
         print('Transacting:',self.amount)
-        if balance>self.amount:
+        if balance>self.amount or self.sender=='a138447742c24a0c65bd128d878a26127f07ba112be5c9a30e3ceb1a76fd39f4': #if from faucet address verify operation
             return True
         print('!!\tLow Balance\t!!')
         return False
+        #Signature verification done at block level
 

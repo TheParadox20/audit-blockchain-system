@@ -12,6 +12,7 @@ except:
 alice: 9ecde9c3174dc7d65a9c35d3c67e8a9f3f5046e52095ce451ebb41fb444dd814
 bob: 5e4babf14f5ff937b8d1e4e1e25bf69eeea65d907ed0e7022419feebb1d7579f
 charlie: b6f5e3b7122eab572cc2b9fb6ab2da998708cdd669ea2959b2eb580d5b9da196
+faucet: a138447742c24a0c65bd128d878a26127f07ba112be5c9a30e3ceb1a76fd39f4
 """
 user = Account()
 explorer = Explorer()
