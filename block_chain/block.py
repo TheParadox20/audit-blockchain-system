@@ -19,12 +19,16 @@ class Block:
         self.prevHash = self.getPreviousHash()
         self.block = {
             'blockSize':0,
+            'blockID':'',
             'previousHash':self.prevHash,
             'numberOfTransactions':1,
             'blockNumber':Explorer.getChainHeight()+1,
-            'nodeSignature':'',
+            'nodeSignature':b'',
             'transactions':transaction
         }
+        self.blockID = self.createBlockID()
+        self.block['blockID'] = self.blockID
+        self.block['nodeSignature'] = Account.signData(self.blockID,0)
         size = self.calculateBlockSize()
         self.block['blockSize'] = size+len(str(size))
         #Append to block
@@ -34,7 +38,11 @@ class Block:
             print('!!\tInvalid Signature\t!!')
 
     def createBlock(self):
+        #Block is created in the constructor
         pass
+
+    def createBlockID(self):
+        return Hash.hash_256(dictToBytes(self.block))
 
     def verifyBlock(self) -> bool:
         """
